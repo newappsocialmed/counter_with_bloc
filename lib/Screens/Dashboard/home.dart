@@ -39,9 +39,25 @@ class _HomeState extends State<Home> {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 title: const Text('Dashboard', style: TextStyle( color: Colors.white, fontWeight: FontWeight.w700, fontSize: 24),),
-                leading: IconButton(onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> const Loginuser()));
-                }, icon: const Icon(Icons.logout, color: Colors.white,)),
+                leading: IconButton(
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Confirm!!'),
+                      content: const Text('Are you sure to Logout?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('No'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> const Loginuser())),
+                          child: const Text('Yes'),
+                        ),
+                      ],
+                    ),
+                  ), 
+                  icon: const Icon(Icons.logout, color: Colors.white,)),
               ),
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

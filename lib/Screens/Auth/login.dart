@@ -23,75 +23,79 @@ class Loginuser extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          body: Column(
-            children: [
-              SafeArea(
-                child: Container(
-                  height: 90,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(colors: [Colors.black,  Colors.white, Colors.lightBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Login', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),)
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextField(
-                        controller: name,
-                        decoration:
-                            const InputDecoration(
-                              hintText: 'User Name',
-                              border: OutlineInputBorder()),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        obscureText: true,
-                        controller: password,
-                        decoration:
-                            const InputDecoration(
-                              hintText: 'Password',
-                              border: OutlineInputBorder()),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              BlocProvider.of<LoginBloc>(context).add(
-                                  LoginEvent.login(name: name.text, password: password.text));
-                            },
-                            child: const Text('Login')),
-                      ),
-                      const SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Don\'t have account? '),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const Signupuser()));
-                            },
-                            child: const Text('Signup', style: TextStyle(color: Colors.blue),),
-                          )
-                        ],
-                      )
-                    ],
+          body: PopScope(
+            canPop: false,
+            onPopInvoked:(didPop) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('You cannot go back in this screen'), behavior: SnackBarBehavior.floating, duration: Duration(seconds: 1),)),
+            child: Column(
+              children: [
+                SafeArea(
+                  child: Container(
+                    height: 90,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(colors: [Colors.black,  Colors.white, Colors.lightBlue], begin: Alignment.topLeft, end: Alignment.bottomRight)
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Login', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextField(
+                          controller: name,
+                          decoration:
+                              const InputDecoration(
+                                hintText: 'User Name',
+                                border: OutlineInputBorder()),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                          obscureText: true,
+                          controller: password,
+                          decoration:
+                              const InputDecoration(
+                                hintText: 'Password',
+                                border: OutlineInputBorder()),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Center(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<LoginBloc>(context).add(LoginEvent.login(name: name.text, password: password.text));
+                                const CircularProgressIndicator();
+                              },
+                              child: const Text('Login')),
+                        ),
+                        const SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Don\'t have account?  '),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (_)=>const Signupuser()));
+                              },
+                              child: const Text('Signup', style: TextStyle(color: Colors.blue),),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       }
